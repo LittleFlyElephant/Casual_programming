@@ -2,6 +2,7 @@ package practice_for_interview;
 
 // Mock Two-sigma intern OA
 // Problem 1
+// String
 
 import java.util.ArrayList;
 import java.util.Arrays;
