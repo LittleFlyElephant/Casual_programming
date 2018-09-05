@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class H862 {
+public class LH862 {
 
     public int shortestSubarray(int[] A, int K) {
         Stack<Info> s = new Stack<>();
