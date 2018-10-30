@@ -1,6 +1,8 @@
 package practice_for_interview;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Test {
 
@@ -98,14 +100,101 @@ public class Test {
         return ans;
     }
 
+
+    public boolean isPalindrome(String s) {
+        List<Character> arr = new ArrayList<>();
+        String s2 = s.toLowerCase();
+        for (int i=0; i<s2.length(); i++) {
+            char c = s2.charAt(i);
+            if (Character.isLetterOrDigit(c)) {
+                arr.add(c);
+            }
+        }
+        int l = 0, r = arr.size()-1;
+        while (l < r) {
+            System.out.println(arr.get(l)==arr.get(r));
+            if (arr.get(l) == arr.get(r)) return false;
+            l++;
+            r--;
+        }
+        return true;
+    }
+
+
+    char[][] g;
+    int m, n;
+    //int[] dx = {1,-1,0,0};
+    //int[] dy = {0,0,1,-1};
+
+    void bfs(Point p) {
+        Queue<Point> q = new LinkedList<>();
+        q.offer(p);
+        g[p.x][p.y] = '0';
+        while (!q.isEmpty()) {
+            Point cur = q.poll();
+            for (int i=0; i<4; i++) {
+                int nx = cur.x+dx[i], ny = cur.y+dy[i];
+                if (nx>=0 && ny>=0 && nx<n && ny<m && g[nx][ny] == '1') {
+                    q.offer(new Point(nx, ny));
+                    g[nx][ny] = '0';
+                }
+            }
+        }
+    }
+
+    public int numIslands(char[][] grid) {
+        g = grid;
+        n = g.length;
+        if (n == 0) return 0;
+        m = g[0].length;
+        int ans = 0;
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
+                if (g[i][j] == '1') {
+                    bfs(new Point(i, j));
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+
+
+    public int longestConsecutive(int[] nums) {
+        // map: num->length
+        Map<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        for (int n: nums) {
+            if (!map.containsKey(n)) {
+                int left = map.getOrDefault(n-1, 0);
+                int right = map.getOrDefault(n+1, 0);
+                ans = Math.max(ans, left+1+right);
+                // map.put(n, left+1+right);
+                map.put(n-left, left+1+right);
+                map.put(n+right, left+1+right);
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         //[[3,4],[3,5],[3,6],[0,1,2],[0,5,6],[1,4],[2,4]] 0
         //[[2,3],[3,4],[0,4],[0,1],[1,2]] 1
-        Test test = new Test();
-        int[][] grid = {{1},{1},{1},{1},{1}};
-        int[][] hits = {{3,0},{4,0},{1,0},{2,0},{0,0}};
-        for (int i: test.hitBricks(grid, hits)){
-            System.out.println(i);
-        }
+//        Test test = new Test();
+//        int[][] grid = {{1},{1},{1},{1},{1}};
+//        int[][] hits = {{3,0},{4,0},{1,0},{2,0},{0,0}};
+//        for (int i: test.hitBricks(grid, hits)){
+//            System.out.println(i);
+//        }
+//        Character a1 = 'a';
+//        Character a2 = 'a';
+//        System.out.println(a1 == a2);
+//        System.out.println(a1.equals(a2));
+//        System.out.println((new Test()).isPalindrome("A man, a plan, a canal: Panama"));
+//        char[][] test = {{'1','1','1','1','1','0','1','1','1','1','1','1','1','1','1','0','1','0','1','1'},{'0','1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','0'},{'1','0','1','1','1','0','0','1','1','0','1','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','0','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'1','0','0','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'1','0','1','1','1','1','1','1','0','1','1','1','0','1','1','1','0','1','1','1'},{'0','1','1','1','1','1','1','1','1','1','1','1','0','1','1','0','1','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','0','1','1'},{'1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'0','1','1','1','1','1','1','1','0','1','1','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','1','0','1','1','1','1','1','1','1','0','1','1','1','1','1','1'},{'1','0','1','1','1','1','1','0','1','1','1','0','1','1','1','1','0','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','1','0'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','0','0'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}};
+//        System.out.println((new Test()).numIslands(test));
+        int[] test = {4,0,-4,-2,2,5,2,0,-8,-8,-8,-8,-1,7,4,5,5,-4,6,6,-3};
+//        System.out.println((new Test()).longestConsecutive(test));
+        System.out.println((5 & -5));
     }
 }
